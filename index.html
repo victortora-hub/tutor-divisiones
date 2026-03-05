@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutor de Divisiones Tradicional</title>
+    <title>Tutor de Divisiones Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,132 +12,137 @@
         body {
             font-family: 'Nunito', sans-serif;
             background-color: #f0fdf4;
-            background-image: radial-gradient(#bbf7d0 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(#bbf7d0 2px, transparent 2px);
+            background-size: 30px 30px;
         }
 
         .math-board-container {
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 900;
             color: #1e293b;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             padding: 2rem;
             background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            border: 4px solid #4ade80;
+            border-radius: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 5px solid #4ade80;
             overflow-x: auto;
         }
 
         .grid-area {
             display: grid;
-            /* Columnas dinámicas generadas en JS */
-            grid-auto-rows: 50px;
-            gap: 0px; /* Sin espacio para que las líneas formen la caja continua */
+            grid-auto-rows: 55px;
+            gap: 0px;
             position: relative;
         }
 
         .cell {
-            width: 40px;
-            height: 50px;
+            width: 45px;
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             z-index: 1;
         }
 
-        /* La "Caja" o "Casita" tradicional Española / Latina */
-        .bracket-spain-left {
-            border-left: 4px solid #3b82f6;
-        }
-        .bracket-spain-bottom {
-            border-bottom: 4px solid #3b82f6;
-        }
+        .bracket-spain-left { border-left: 5px solid #3b82f6; }
+        .bracket-spain-bottom { border-bottom: 5px solid #3b82f6; }
+        .line-bottom { border-bottom: 4px solid #94a3b8; }
 
-        /* Línea de resta */
-        .line-bottom {
-            border-bottom: 3px solid #94a3b8;
-        }
-
-        /* Resaltado del número que se está operando */
         .active-highlight {
             background-color: #fef08a;
-            border-radius: 6px;
-            box-shadow: 0 0 0 2px #fef08a; /* Expande un poco el color sin afectar el grid */
+            border-radius: 8px;
+            box-shadow: 0 0 0 3px #fef08a;
             z-index: 0;
         }
 
         .bring-down-arrow {
             color: #ef4444;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             animation: bounceDown 1s infinite;
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
         @keyframes bounceDown {
-            0%, 100% { transform: translateY(-25%); }
-            50% { transform: translateY(25%); }
+            0%, 100% { transform: translateY(-20%); }
+            50% { transform: translateY(20%); }
         }
 
-        .btn-ludico {
-            transition: all 0.2s;
-            box-shadow: 0 4px 0px 0px rgba(0,0,0,0.2);
+        /* chunky buttons design */
+        .btn-chunky {
+            transition: all 0.1s;
+            box-shadow: 0 6px 0px 0px rgba(0,0,0,0.15);
         }
-        .btn-ludico:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0px 0px rgba(0,0,0,0.2);
+        .btn-chunky:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px 0px rgba(0,0,0,0.15);
         }
-        
-        .shake {
-            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+
+        /* Custom Input pulse */
+        .pulse-border {
+            animation: borderPulse 1.5s infinite;
         }
+        @keyframes borderPulse {
+            0% { border-color: #facc15; box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.4); }
+            50% { border-color: #fbbf24; box-shadow: 0 0 0 10px rgba(250, 204, 21, 0); }
+            100% { border-color: #facc15; box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
+        }
+
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        .streak-fire { animation: flicker 1s infinite alternate; }
+        @keyframes flicker {
+            0% { transform: scale(1); filter: brightness(1); }
+            100% { transform: scale(1.1); filter: brightness(1.2); }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
 
     <!-- Pantalla de Inicio -->
-    <div id="setup-screen" class="max-w-md w-full bg-white rounded-3xl p-8 shadow-2xl border-4 border-blue-400 text-center">
-        <h1 class="text-4xl font-black text-blue-600 mb-6 tracking-tight">¡Misión División! 🚀</h1>
-        <p class="text-gray-600 mb-8 font-bold text-lg">Método Tradicional (Dividendo a la izquierda)</p>
+    <div id="setup-screen" class="max-w-md w-full bg-white rounded-[2rem] p-8 shadow-2xl border-4 border-blue-400 text-center relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 text-9xl opacity-10">➗</div>
+        <h1 class="text-4xl font-black text-blue-600 mb-2 tracking-tight">¡Misión División! 🚀</h1>
+        <p class="text-gray-500 mb-8 font-bold text-lg">Tutor Inteligente Paso a Paso</p>
         
-        <div class="space-y-6">
-            <div class="bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
-                <h2 class="font-bold text-blue-800 mb-3"><i class="fas fa-dice"></i> Modo Aleatorio</h2>
-                <div class="flex gap-2 justify-center">
-                    <button onclick="startRandom(1)" class="btn-ludico bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-xl">Fácil (1 cifra)</button>
-                    <button onclick="startRandom(2)" class="btn-ludico bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-xl">Medio (2 cifras)</button>
+        <div class="space-y-6 relative z-10">
+            <div class="bg-blue-50 p-5 rounded-3xl border-2 border-blue-200">
+                <h2 class="font-black text-blue-800 mb-4 text-xl"><i class="fas fa-bolt text-yellow-500"></i> Partida Rápida</h2>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button onclick="startRandom(1)" class="btn-chunky w-full bg-green-400 hover:bg-green-500 text-white font-black py-3 px-4 rounded-2xl text-lg">Fácil (1 cifra)</button>
+                    <button onclick="startRandom(2)" class="btn-chunky w-full bg-orange-400 hover:bg-orange-500 text-white font-black py-3 px-4 rounded-2xl text-lg">Medio (2 cifras)</button>
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
                 <div class="h-1 bg-gray-200 flex-1 rounded-full"></div>
-                <span class="text-gray-400 font-bold uppercase text-sm">O elige tus números</span>
+                <span class="text-gray-400 font-black uppercase text-xs tracking-wider">O PERSONALIZA</span>
                 <div class="h-1 bg-gray-200 flex-1 rounded-full"></div>
             </div>
 
-            <div class="bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
-                <h2 class="font-bold text-purple-800 mb-3"><i class="fas fa-keyboard"></i> Modo Manual</h2>
-                <div class="flex items-center justify-center gap-2 text-xl font-bold">
-                    <input type="number" id="manual-dividend" placeholder="452" class="w-24 p-2 rounded-lg border-2 border-purple-300 text-center focus:outline-none focus:border-purple-500" min="10" max="9999">
-                    <span class="text-purple-600 font-black px-2">|</span>
-                    <input type="number" id="manual-divisor" placeholder="4" class="w-16 p-2 rounded-lg border-2 border-purple-300 text-center focus:outline-none focus:border-purple-500" min="2" max="99">
+            <div class="bg-purple-50 p-5 rounded-3xl border-2 border-purple-200">
+                <h2 class="font-black text-purple-800 mb-4 text-xl"><i class="fas fa-pencil-alt text-purple-500"></i> Tus propios números</h2>
+                <div class="flex items-center justify-center gap-3 text-2xl font-black">
+                    <input type="number" id="manual-dividend" placeholder="452" class="w-28 p-3 rounded-2xl border-4 border-purple-200 text-center focus:outline-none focus:border-purple-500 shadow-inner text-purple-700 bg-white" min="10" max="99999">
+                    <span class="text-purple-400 px-1">|</span>
+                    <input type="number" id="manual-divisor" placeholder="4" class="w-20 p-3 rounded-2xl border-4 border-purple-200 text-center focus:outline-none focus:border-purple-500 shadow-inner text-purple-700 bg-white" min="2" max="99">
                 </div>
-                <button onclick="startManual()" class="mt-4 w-full btn-ludico bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-xl">¡Empezar a Dividir!</button>
-                <p id="setup-error" class="text-red-500 text-sm font-bold mt-2 hidden">¡Introduce números válidos!</p>
+                <button onclick="startManual()" class="mt-5 w-full btn-chunky bg-purple-500 hover:bg-purple-600 text-white font-black py-4 px-4 rounded-2xl text-xl">¡A Dividir!</button>
+                <p id="setup-error" class="text-red-500 text-sm font-bold mt-3 hidden bg-red-100 p-2 rounded-lg">¡Revisa los números! El dividendo debe ser mayor.</p>
             </div>
         </div>
     </div>
@@ -145,6 +150,15 @@
     <!-- Pantalla de Juego -->
     <div id="game-screen" class="hidden w-full max-w-2xl flex flex-col items-center">
         
+        <!-- Header con Racha (Streak) -->
+        <div class="w-full flex justify-between items-center bg-white px-6 py-3 rounded-2xl shadow-md border-2 border-gray-100 mb-2">
+            <button onclick="resetGame()" class="text-gray-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-2xl"></i></button>
+            <div id="streak-container" class="text-2xl font-black text-gray-300 transition-colors duration-300 flex items-center gap-2">
+                <i class="fas fa-fire streak-fire hidden" id="fire-icon"></i> 
+                <span id="streak-text">Racha: 0</span>
+            </div>
+        </div>
+
         <!-- Pizarra Matemática -->
         <div class="math-board-container w-full">
             <div class="grid-area" id="grid-container">
@@ -152,89 +166,100 @@
             </div>
         </div>
 
-        <!-- Panel del Asistente (Bot) -->
-        <div class="w-full bg-white rounded-3xl p-6 shadow-xl border-4 border-yellow-400 relative mt-4">
-            <div class="absolute -top-10 left-6 bg-yellow-400 w-16 h-16 rounded-full flex items-center justify-center text-3xl border-4 border-white shadow-md">
-                🤖
+        <!-- Panel del Asistente (Bot Inteligente) -->
+        <div class="w-full bg-white rounded-3xl p-5 sm:p-7 shadow-xl border-4 border-yellow-400 relative mt-6 transition-all duration-300" id="assistant-panel">
+            
+            <!-- Mascota Dinámica -->
+            <div id="mascot" class="absolute -top-12 left-6 bg-yellow-400 w-20 h-20 rounded-full flex items-center justify-center text-5xl border-4 border-white shadow-lg transition-transform duration-300">
+                🤔
             </div>
             
-            <h3 id="step-title" class="text-xl font-black text-yellow-600 ml-16 mb-2 uppercase tracking-wider">Paso 1: Dividir</h3>
-            <p id="instruction-text" class="text-gray-700 text-lg font-bold ml-16 mb-4">
-                ¿Cuántas veces cabe el X en el Y?
-            </p>
+            <div class="ml-20">
+                <h3 id="step-title" class="text-xl sm:text-2xl font-black text-yellow-600 mb-1 uppercase tracking-wider">Paso 1</h3>
+                <p id="instruction-text" class="text-gray-700 text-lg sm:text-xl font-bold mb-4 leading-tight">
+                    Instrucción aquí
+                </p>
+                
+                <!-- Feedback Dinámico (Pistas) -->
+                <p id="feedback-msg" class="text-red-500 font-black text-md mb-4 hidden bg-red-50 p-3 rounded-xl border-2 border-red-100">
+                    <i class="fas fa-lightbulb text-yellow-500"></i> <span id="feedback-text">Pista...</span>
+                </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 items-center ml-16">
-                <input type="text" inputmode="none" id="user-input" class="w-32 p-3 text-2xl font-black text-center border-4 border-gray-200 rounded-xl bg-gray-50 text-gray-800 cursor-default select-none focus:outline-none focus:border-yellow-400 transition-colors" readonly placeholder="?">
-                <button id="action-btn" onclick="executeAction()" class="hidden btn-ludico bg-green-500 hover:bg-green-600 text-white font-black py-3 px-8 rounded-xl text-lg w-full sm:w-auto">
-                    Bajar número <i class="fas fa-arrow-down ml-2"></i>
-                </button>
+                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                    <input type="text" inputmode="none" id="user-input" class="w-full sm:w-32 p-4 text-3xl font-black text-center border-4 border-gray-200 rounded-2xl bg-white text-gray-800 cursor-default select-none pulse-border" readonly placeholder="?">
+                    
+                    <button id="action-btn" onclick="executeAction()" class="hidden btn-chunky bg-green-500 hover:bg-green-600 text-white font-black py-4 px-8 rounded-2xl text-xl w-full sm:w-auto flex-1">
+                        Bajar número <i class="fas fa-arrow-down ml-2"></i>
+                    </button>
+                </div>
             </div>
             
-            <!-- Teclado Numérico Integrado -->
-            <div id="custom-keypad" class="grid grid-cols-3 gap-2 mt-4 ml-16 max-w-[240px]">
-                <button onclick="pressKey(1)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">1</button>
-                <button onclick="pressKey(2)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">2</button>
-                <button onclick="pressKey(3)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">3</button>
-                <button onclick="pressKey(4)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">4</button>
-                <button onclick="pressKey(5)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">5</button>
-                <button onclick="pressKey(6)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">6</button>
-                <button onclick="pressKey(7)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">7</button>
-                <button onclick="pressKey(8)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">8</button>
-                <button onclick="pressKey(9)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">9</button>
-                <button onclick="deleteKey()" class="btn-ludico bg-red-100 hover:bg-red-200 text-red-600 font-black py-3 rounded-xl text-2xl"><i class="fas fa-backspace"></i></button>
-                <button onclick="pressKey(0)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">0</button>
-                <button onclick="checkAnswer()" class="btn-ludico bg-blue-500 hover:bg-blue-600 text-white font-black py-3 rounded-xl text-2xl"><i class="fas fa-check"></i></button>
+            <!-- Teclado Numérico Neomorfismo -->
+            <div id="custom-keypad" class="grid grid-cols-3 gap-3 mt-6 max-w-[320px] mx-auto">
+                <button onclick="pressKey(1)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">1</button>
+                <button onclick="pressKey(2)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">2</button>
+                <button onclick="pressKey(3)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">3</button>
+                <button onclick="pressKey(4)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">4</button>
+                <button onclick="pressKey(5)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">5</button>
+                <button onclick="pressKey(6)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">6</button>
+                <button onclick="pressKey(7)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">7</button>
+                <button onclick="pressKey(8)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">8</button>
+                <button onclick="pressKey(9)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">9</button>
+                <button onclick="deleteKey()" class="btn-chunky bg-red-100 text-red-600 font-black py-4 rounded-2xl text-2xl border-2 border-red-200"><i class="fas fa-backspace"></i></button>
+                <button onclick="pressKey(0)" class="btn-chunky bg-blue-50 text-blue-900 font-black py-4 rounded-2xl text-3xl border-2 border-blue-100">0</button>
+                <button onclick="checkAnswer()" class="btn-chunky bg-green-500 text-white font-black py-4 rounded-2xl text-3xl border-2 border-green-600"><i class="fas fa-check"></i></button>
             </div>
-
-            <p id="feedback-msg" class="text-red-500 font-bold ml-16 mt-3 hidden"></p>
         </div>
-
-        <button onclick="resetGame()" class="mt-6 text-gray-500 font-bold hover:text-gray-700 underline"><i class="fas fa-home"></i> Volver al menú principal</button>
     </div>
 
     <script>
         // === ESTADO DEL JUEGO ===
         let divisor = 0;
         let dividendStr = "";
-        let cells = []; // { id, val, row, col, classes }
+        let cells = []; 
         
         let state = ""; // DIVIDE, MULTIPLY, SUBTRACT, BRING_DOWN, DONE
         let currDividendIdx = 0;
         let workingNumber = 0;
-        let leftCurrentRow = 2; // Fila donde suceden las restas (debajo del dividendo)
-        let quotientCol = 0;    // Columna donde se escribe el siguiente dígito del cociente
+        let leftCurrentRow = 2; 
+        let quotientCol = 0;    
         let currentQuotientDigit = 0;
         let currentProduct = 0;
         let expectedAnswer = 0;
         let cellIdCounter = 0;
+        
+        // Variables Pro
+        let streak = 0;
+        let currentFails = 0;
 
-        // Contexto de Audio para efectos de sonido
+        // Contexto de Audio Pro
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep(frequency, type, duration) {
+        function playBeep(frequency, type, duration, vol=0.1) {
             if(audioCtx.state === 'suspended') audioCtx.resume();
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             oscillator.type = type;
             oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(vol, audioCtx.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + duration);
         }
-        function playSuccess() { playBeep(600, 'sine', 0.2); setTimeout(()=>playBeep(800, 'sine', 0.3), 100); }
+        function playSuccess() { playBeep(600, 'sine', 0.1); setTimeout(()=>playBeep(800, 'sine', 0.2), 100); }
         function playError() { playBeep(200, 'sawtooth', 0.3); }
+        function playClick() { playBeep(400, 'triangle', 0.05, 0.05); }
 
         // === INICIALIZACIÓN ===
         function startRandom(level) {
             let div, divd;
             if (level === 1) {
-                div = Math.floor(Math.random() * 8) + 2; // 2-9
-                divd = Math.floor(Math.random() * 899) + 100; // 100-999
+                div = Math.floor(Math.random() * 8) + 2; 
+                divd = Math.floor(Math.random() * 899) + 100; 
             } else {
-                div = Math.floor(Math.random() * 89) + 10; // 10-99
-                divd = Math.floor(Math.random() * 8999) + 1000; // 1000-9999
+                div = Math.floor(Math.random() * 89) + 10; 
+                divd = Math.floor(Math.random() * 89999) + 1000; 
             }
             initGame(div, divd);
         }
@@ -257,46 +282,31 @@
             dividendStr = String(divd);
             cells = [];
             cellIdCounter = 0;
+            currentFails = 0;
 
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
+            updateStreakDisplay();
             
-            // Calculamos el ancho de la cuadrícula
             let cols = dividendStr.length + Math.max(String(divisor).length, dividendStr.length) + 1;
-            document.getElementById('grid-container').style.gridTemplateColumns = `repeat(${cols}, 40px)`;
+            document.getElementById('grid-container').style.gridTemplateColumns = `repeat(${cols}, 45px)`;
 
-            // 1. Colocar el Dividendo a la izquierda (Fila 1)
             for(let i = 0; i < dividendStr.length; i++) {
-                cells.push({
-                    id: cellIdCounter++,
-                    val: dividendStr[i],
-                    row: 1,
-                    col: i + 1,
-                    classes: "text-2xl"
-                });
+                cells.push({ id: cellIdCounter++, val: dividendStr[i], row: 1, col: i + 1, classes: "text-3xl" });
             }
 
-            // 2. Colocar el Divisor a la derecha (Fila 1), con la "caja"
             let divStr = String(divisor);
             let divisorStartCol = dividendStr.length + 1;
             
             for(let i = 0; i < divStr.length; i++) {
-                let cellClasses = "text-2xl text-blue-600 bracket-spain-bottom";
+                let cellClasses = "text-3xl text-blue-600 bracket-spain-bottom";
                 if (i === 0) cellClasses += " bracket-spain-left";
-                
-                cells.push({
-                    id: cellIdCounter++,
-                    val: divStr[i],
-                    row: 1,
-                    col: divisorStartCol + i,
-                    classes: cellClasses
-                });
+                cells.push({ id: cellIdCounter++, val: divStr[i], row: 1, col: divisorStartCol + i, classes: cellClasses });
             }
 
             currDividendIdx = 0;
             workingNumber = parseInt(dividendStr[0]);
 
-            // Si el primer número es menor que el divisor, tomamos dos cifras
             if (workingNumber < divisor && dividendStr.length > 1) {
                 currDividendIdx = 1;
                 workingNumber = parseInt(dividendStr.substring(0, 2));
@@ -314,7 +324,7 @@
             document.getElementById('game-screen').classList.add('hidden');
         }
 
-        // === MOTOR DE RENDERIZADO ===
+        // === RENDERIZADO VISUAL ===
         function renderBoard() {
             const container = document.getElementById('grid-container');
             container.innerHTML = "";
@@ -330,7 +340,6 @@
                 } else {
                     div.innerText = c.val;
                 }
-                
                 container.appendChild(div);
             });
         }
@@ -339,35 +348,48 @@
             let strNum = String(num);
             for (let i = 0; i < strNum.length; i++) {
                 let digit = strNum[strNum.length - 1 - i];
-                cells.push({
-                    id: cellIdCounter++,
-                    val: digit,
-                    row: row,
-                    col: endCol - i,
-                    classes: customClass
-                });
+                cells.push({ id: cellIdCounter++, val: digit, row: row, col: endCol - i, classes: customClass });
             }
         }
 
         function clearHighlights() {
-            cells.forEach(c => {
-                c.classes = c.classes.replace('active-highlight', '').trim();
-            });
+            cells.forEach(c => c.classes = c.classes.replace('active-highlight', '').trim());
         }
 
         function highlightWorkingNumber(row, endCol, length) {
             cells.forEach(c => {
                 if (c.row === row && c.col > endCol - length && c.col <= endCol) {
-                    if (!c.classes.includes('active-highlight')) {
-                        c.classes += ' active-highlight';
-                    }
+                    if (!c.classes.includes('active-highlight')) c.classes += ' active-highlight';
                 }
             });
         }
 
-        // === MÁQUINA DE ESTADOS ===
+        function updateMascot(emoji) {
+            const m = document.getElementById('mascot');
+            m.innerText = emoji;
+            m.classList.add('scale-110');
+            setTimeout(() => m.classList.remove('scale-110'), 200);
+        }
+
+        function updateStreakDisplay() {
+            const cont = document.getElementById('streak-container');
+            const txt = document.getElementById('streak-text');
+            const fire = document.getElementById('fire-icon');
+            
+            txt.innerText = `Racha: ${streak}`;
+            if (streak > 2) {
+                cont.classList.replace('text-gray-300', 'text-orange-500');
+                fire.classList.remove('hidden');
+            } else {
+                cont.classList.replace('text-orange-500', 'text-gray-300');
+                fire.classList.add('hidden');
+            }
+        }
+
+        // === MÁQUINA DE ESTADOS Y LÓGICA PEDAGÓGICA ===
         function setState(newState) {
             state = newState;
+            currentFails = 0; // Reset fails on new step
             clearHighlights();
             
             const title = document.getElementById('step-title');
@@ -376,18 +398,24 @@
             const keypad = document.getElementById('custom-keypad');
             const btnAction = document.getElementById('action-btn');
             const feedback = document.getElementById('feedback-msg');
+            const panel = document.getElementById('assistant-panel');
             
             feedback.classList.add('hidden');
             input.value = "";
             input.classList.remove('hidden');
             keypad.classList.remove('hidden');
             btnAction.classList.add('hidden');
+            
+            // Colores dinámicos del panel según estado
+            panel.className = panel.className.replace(/border-\w+-400/, '');
 
             switch(state) {
                 case 'DIVIDE':
+                    updateMascot("🤔");
+                    panel.classList.add('border-blue-400');
                     title.innerText = "Paso 1: Dividir ➗";
-                    title.className = "text-xl font-black text-blue-600 ml-16 mb-2 uppercase tracking-wider";
-                    inst.innerHTML = `¿Cuántas veces cabe el <span class="text-blue-600 font-black">${divisor}</span> en el <span class="text-blue-600 font-black">${workingNumber}</span>?`;
+                    title.className = "text-xl sm:text-2xl font-black text-blue-600 mb-1 uppercase tracking-wider";
+                    inst.innerHTML = `¿Cuántas veces cabe el <span class="text-blue-600 text-2xl">${divisor}</span> en el <span class="text-blue-600 text-2xl">${workingNumber}</span>?`;
                     expectedAnswer = Math.floor(workingNumber / divisor);
                     
                     let targetRow = (leftCurrentRow === 2) ? 1 : leftCurrentRow - 1;
@@ -395,57 +423,58 @@
                     break;
 
                 case 'MULTIPLY':
+                    updateMascot("🤓");
+                    panel.classList.add('border-purple-400');
                     title.innerText = "Paso 2: Multiplicar ✖️";
-                    title.className = "text-xl font-black text-purple-600 ml-16 mb-2 uppercase tracking-wider";
-                    inst.innerHTML = `Multiplica <span class="text-purple-600 font-black">${currentQuotientDigit}</span> x <span class="text-purple-600 font-black">${divisor}</span>.`;
+                    title.className = "text-xl sm:text-2xl font-black text-purple-600 mb-1 uppercase tracking-wider";
+                    inst.innerHTML = `Multiplica <span class="text-purple-600 text-2xl">${currentQuotientDigit}</span> x <span class="text-purple-600 text-2xl">${divisor}</span>.`;
                     expectedAnswer = currentQuotientDigit * divisor;
-                    
                     highlightWorkingNumber(2, quotientCol - 1, 1);
                     break;
 
                 case 'SUBTRACT':
+                    updateMascot("🧐");
+                    panel.classList.add('border-red-400');
                     title.innerText = "Paso 3: Restar ➖";
-                    title.className = "text-xl font-black text-red-600 ml-16 mb-2 uppercase tracking-wider";
-                    inst.innerHTML = `Resta <span class="text-red-600 font-black">${workingNumber}</span> - <span class="text-red-600 font-black">${currentProduct}</span>.`;
+                    title.className = "text-xl sm:text-2xl font-black text-red-600 mb-1 uppercase tracking-wider";
+                    inst.innerHTML = `Resta <span class="text-red-600 text-2xl">${workingNumber}</span> - <span class="text-red-600 text-2xl">${currentProduct}</span>.`;
                     expectedAnswer = workingNumber - currentProduct;
-                    
                     highlightWorkingNumber(leftCurrentRow - 1, currDividendIdx + 1, String(workingNumber).length);
                     break;
 
                 case 'BRING_DOWN':
+                    updateMascot("😃");
+                    panel.classList.add('border-green-400');
                     title.innerText = "Paso 4: Bajar cifra ⬇️";
-                    title.className = "text-xl font-black text-green-600 ml-16 mb-2 uppercase tracking-wider";
+                    title.className = "text-xl sm:text-2xl font-black text-green-600 mb-1 uppercase tracking-wider";
                     let nextDigit = dividendStr[currDividendIdx + 1];
-                    inst.innerHTML = `¡Bien! Ahora baja la siguiente cifra: <span class="text-green-600 font-black">${nextDigit}</span>.`;
+                    inst.innerHTML = `¡Bien! Ahora bajamos la cifra <span class="text-green-600 text-2xl">${nextDigit}</span> al lado del resto.`;
                     
                     input.classList.add('hidden');
                     keypad.classList.add('hidden');
                     btnAction.classList.remove('hidden');
-                    
-                    // Aseguramos qué estilo de botón se muestra (Verde para Bajar)
-                    btnAction.className = "btn-ludico bg-green-500 hover:bg-green-600 text-white font-black py-3 px-8 rounded-xl text-lg w-full sm:w-auto";
+                    btnAction.className = "btn-chunky bg-green-500 hover:bg-green-600 text-white font-black py-4 px-8 rounded-2xl text-xl w-full";
                     btnAction.innerHTML = `Bajar el ${nextDigit} <i class="fas fa-arrow-down ml-2"></i>`;
                     
                     highlightWorkingNumber(1, currDividendIdx + 2, 1);
                     break;
 
                 case 'DONE':
+                    updateMascot("🥳");
+                    panel.classList.add('border-yellow-400');
                     title.innerText = "¡Misión Cumplida! 🏆";
-                    title.className = "text-xl font-black text-yellow-500 ml-16 mb-2 uppercase tracking-wider";
+                    title.className = "text-xl sm:text-2xl font-black text-yellow-500 mb-1 uppercase tracking-wider";
                     let finalRemainder = workingNumber - currentProduct;
-                    
                     let qCells = cells.filter(c => c.row === 2 && c.col >= dividendStr.length + 1).sort((a,b) => a.col - b.col);
                     let finalQuotient = qCells.map(c => c.val).join('');
 
-                    inst.innerHTML = `El cociente es <span class="text-yellow-600 font-black">${finalQuotient}</span> y el resto es <span class="text-yellow-600 font-black">${finalRemainder}</span>.`;
+                    inst.innerHTML = `Cociente: <span class="text-yellow-600 text-3xl">${finalQuotient}</span><br>Resto: <span class="text-yellow-600 text-3xl">${finalRemainder}</span>`;
                     
                     input.classList.add('hidden');
                     keypad.classList.add('hidden');
                     btnAction.classList.remove('hidden');
-                    
-                    // Ajustamos el botón visualmente para "Jugar de nuevo"
-                    btnAction.className = "btn-ludico bg-blue-500 hover:bg-blue-600 text-white font-black py-3 px-8 rounded-xl text-lg w-full sm:w-auto";
-                    btnAction.innerHTML = `Jugar de nuevo <i class="fas fa-redo ml-2"></i>`;
+                    btnAction.className = "btn-chunky bg-blue-500 hover:bg-blue-600 text-white font-black py-4 px-8 rounded-2xl text-xl w-full";
+                    btnAction.innerHTML = `Nueva División <i class="fas fa-redo ml-2"></i>`;
                     
                     triggerConfetti();
                     break;
@@ -453,51 +482,64 @@
             renderBoard();
         }
 
+        // === TECLADO Y VALIDACIÓN ===
         function pressKey(num) {
+            playClick();
             const inputEl = document.getElementById('user-input');
-            // Límite de 4 caracteres para que no desborde la caja
-            if (inputEl.value.length < 4) {
-                inputEl.value += num;
-            }
+            if (inputEl.value.length < 4) inputEl.value += num;
         }
 
         function deleteKey() {
+            playClick();
             const inputEl = document.getElementById('user-input');
             inputEl.value = inputEl.value.slice(0, -1);
         }
 
-        // Permitimos usar el teclado físico en caso de estar en ordenador
         document.addEventListener('keydown', function(e) {
-            // Ignorar si no estamos jugando o si estamos en pantallas donde no se teclea
             if (document.getElementById('game-screen').classList.contains('hidden')) return;
             if (state === 'BRING_DOWN' || state === 'DONE' || state === '') return;
 
-            if (e.key >= '0' && e.key <= '9') {
-                pressKey(e.key);
-            } else if (e.key === 'Backspace') {
-                deleteKey();
-            } else if (e.key === 'Enter') {
-                checkAnswer();
-            }
+            if (e.key >= '0' && e.key <= '9') pressKey(e.key);
+            else if (e.key === 'Backspace') deleteKey();
+            else if (e.key === 'Enter') checkAnswer();
         });
 
         function checkAnswer() {
             const inputEl = document.getElementById('user-input');
             const feedback = document.getElementById('feedback-msg');
+            const feedbackTxt = document.getElementById('feedback-text');
             let userAns = parseInt(inputEl.value);
 
             if (isNaN(userAns)) return;
 
             if (userAns === expectedAnswer) {
+                // Éxito
+                if (currentFails === 0) streak++; // Sube racha si no falló
+                updateStreakDisplay();
                 playSuccess();
                 feedback.classList.add('hidden');
-                avanzarPaso();
+                updateMascot("😎");
+                setTimeout(avanzarPaso, 400); // Pequeña pausa para ver la cara feliz
             } else {
+                // Fallo
+                currentFails++;
+                streak = 0; // Pierde racha
+                updateStreakDisplay();
                 playError();
+                updateMascot("😅");
                 inputEl.classList.add('shake');
                 setTimeout(() => inputEl.classList.remove('shake'), 400);
-                feedback.innerText = "¡Uy! Inténtalo de nuevo. 🤔";
+                
+                // Lógica de Pistas Dinámicas (Andamiaje)
                 feedback.classList.remove('hidden');
+                if (state === 'DIVIDE') {
+                    if (userAns > expectedAnswer) feedbackTxt.innerText = `¡Te pasaste! Prueba con un número menor.`;
+                    else feedbackTxt.innerText = `Casi... ¡Cabe más veces! Prueba sumando el divisor.`;
+                } else if (state === 'MULTIPLY') {
+                    feedbackTxt.innerText = `Calcula con cuidado: suma ${divisor} veces ${currentQuotientDigit}.`;
+                } else if (state === 'SUBTRACT') {
+                    feedbackTxt.innerText = `Truco: ¿Cuánto falta de ${currentProduct} para llegar a ${workingNumber}?`;
+                }
                 inputEl.value = "";
             }
         }
@@ -506,53 +548,42 @@
             switch(state) {
                 case 'DIVIDE':
                     currentQuotientDigit = expectedAnswer;
-                    addNumberToGrid(currentQuotientDigit, 2, quotientCol, 'text-blue-600 font-black text-2xl');
+                    addNumberToGrid(currentQuotientDigit, 2, quotientCol, 'text-blue-600 font-black text-3xl');
                     quotientCol++;
                     setState('MULTIPLY');
                     break;
 
                 case 'MULTIPLY':
                     currentProduct = expectedAnswer;
-                    addNumberToGrid(currentProduct, leftCurrentRow, currDividendIdx + 1, 'text-purple-600 line-bottom font-bold text-xl');
+                    addNumberToGrid(currentProduct, leftCurrentRow, currDividendIdx + 1, 'text-purple-600 line-bottom font-bold text-2xl');
                     leftCurrentRow++;
                     setState('SUBTRACT');
                     break;
 
                 case 'SUBTRACT':
                     let remainder = expectedAnswer;
-                    
                     if (currDividendIdx < dividendStr.length - 1) {
-                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-red-600 font-bold text-xl');
+                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-red-600 font-bold text-2xl');
                         setState('BRING_DOWN');
                     } else {
-                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-yellow-500 font-black text-2xl');
+                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-yellow-500 font-black text-3xl');
                         setState('DONE');
                     }
                     break;
             }
         }
 
-        // Esta es la función clave corregida.
-        // Ahora evalúa el estado actual para saber qué acción ejecutar,
-        // sin necesidad de sobrescribir el evento onclick en el botón.
         function executeAction() {
             if (state === 'BRING_DOWN') {
                 playSuccess();
-                
                 let arrowCol = currDividendIdx + 2;
                 let arrowRow = leftCurrentRow - 1; 
 
-                cells.push({
-                    id: cellIdCounter++,
-                    val: '↓',
-                    row: arrowRow,
-                    col: arrowCol,
-                    classes: 'text-red-300'
-                });
-
+                cells.push({ id: cellIdCounter++, val: '↓', row: arrowRow, col: arrowCol, classes: 'text-red-300' });
+                
                 currDividendIdx++;
                 let broughtDownDigit = dividendStr[currDividendIdx];
-                addNumberToGrid(broughtDownDigit, leftCurrentRow, currDividendIdx + 1, 'text-green-600 font-bold text-xl');
+                addNumberToGrid(broughtDownDigit, leftCurrentRow, currDividendIdx + 1, 'text-green-600 font-bold text-2xl');
                 
                 let remainderCells = cells.filter(c => c.row === leftCurrentRow && c.col <= currDividendIdx + 1 && c.val !== '↓');
                 remainderCells.sort((a,b) => a.col - b.col);
@@ -571,22 +602,17 @@
             var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
             function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return clearInterval(interval);
-
                 var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-                }));
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-                }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
         }
     </script>
 </body>
 </html>
+
+
