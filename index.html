@@ -164,14 +164,28 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 items-center ml-16">
-                <input type="number" id="user-input" class="w-32 p-3 text-2xl font-black text-center border-4 border-gray-200 rounded-xl focus:outline-none focus:border-yellow-400 transition-colors" autocomplete="off">
-                <button id="submit-btn" onclick="checkAnswer()" class="btn-ludico bg-blue-500 hover:bg-blue-600 text-white font-black py-3 px-8 rounded-xl text-lg w-full sm:w-auto">
-                    Comprobar <i class="fas fa-check ml-2"></i>
-                </button>
+                <input type="text" inputmode="none" id="user-input" class="w-32 p-3 text-2xl font-black text-center border-4 border-gray-200 rounded-xl bg-gray-50 text-gray-800 cursor-default select-none focus:outline-none focus:border-yellow-400 transition-colors" readonly placeholder="?">
                 <button id="action-btn" onclick="executeAction()" class="hidden btn-ludico bg-green-500 hover:bg-green-600 text-white font-black py-3 px-8 rounded-xl text-lg w-full sm:w-auto">
                     Bajar número <i class="fas fa-arrow-down ml-2"></i>
                 </button>
             </div>
+            
+            <!-- Teclado Numérico Integrado -->
+            <div id="custom-keypad" class="grid grid-cols-3 gap-2 mt-4 ml-16 max-w-[240px]">
+                <button onclick="pressKey(1)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">1</button>
+                <button onclick="pressKey(2)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">2</button>
+                <button onclick="pressKey(3)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">3</button>
+                <button onclick="pressKey(4)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">4</button>
+                <button onclick="pressKey(5)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">5</button>
+                <button onclick="pressKey(6)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">6</button>
+                <button onclick="pressKey(7)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">7</button>
+                <button onclick="pressKey(8)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">8</button>
+                <button onclick="pressKey(9)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">9</button>
+                <button onclick="deleteKey()" class="btn-ludico bg-red-100 hover:bg-red-200 text-red-600 font-black py-3 rounded-xl text-2xl"><i class="fas fa-backspace"></i></button>
+                <button onclick="pressKey(0)" class="btn-ludico bg-gray-100 hover:bg-gray-200 text-gray-800 font-black py-3 rounded-xl text-2xl">0</button>
+                <button onclick="checkAnswer()" class="btn-ludico bg-blue-500 hover:bg-blue-600 text-white font-black py-3 rounded-xl text-2xl"><i class="fas fa-check"></i></button>
+            </div>
+
             <p id="feedback-msg" class="text-red-500 font-bold ml-16 mt-3 hidden"></p>
         </div>
 
@@ -359,16 +373,15 @@
             const title = document.getElementById('step-title');
             const inst = document.getElementById('instruction-text');
             const input = document.getElementById('user-input');
-            const btnSubmit = document.getElementById('submit-btn');
+            const keypad = document.getElementById('custom-keypad');
             const btnAction = document.getElementById('action-btn');
             const feedback = document.getElementById('feedback-msg');
             
             feedback.classList.add('hidden');
             input.value = "";
             input.classList.remove('hidden');
-            btnSubmit.classList.remove('hidden');
+            keypad.classList.remove('hidden');
             btnAction.classList.add('hidden');
-            input.focus();
 
             switch(state) {
                 case 'DIVIDE':
@@ -406,7 +419,7 @@
                     inst.innerHTML = `¡Bien! Ahora baja la siguiente cifra: <span class="text-green-600 font-black">${nextDigit}</span>.`;
                     
                     input.classList.add('hidden');
-                    btnSubmit.classList.add('hidden');
+                    keypad.classList.add('hidden');
                     btnAction.classList.remove('hidden');
                     
                     // Aseguramos qué estilo de botón se muestra (Verde para Bajar)
@@ -427,7 +440,7 @@
                     inst.innerHTML = `El cociente es <span class="text-yellow-600 font-black">${finalQuotient}</span> y el resto es <span class="text-yellow-600 font-black">${finalRemainder}</span>.`;
                     
                     input.classList.add('hidden');
-                    btnSubmit.classList.add('hidden');
+                    keypad.classList.add('hidden');
                     btnAction.classList.remove('hidden');
                     
                     // Ajustamos el botón visualmente para "Jugar de nuevo"
@@ -440,8 +453,30 @@
             renderBoard();
         }
 
-        document.getElementById('user-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !this.classList.contains('hidden')) {
+        function pressKey(num) {
+            const inputEl = document.getElementById('user-input');
+            // Límite de 4 caracteres para que no desborde la caja
+            if (inputEl.value.length < 4) {
+                inputEl.value += num;
+            }
+        }
+
+        function deleteKey() {
+            const inputEl = document.getElementById('user-input');
+            inputEl.value = inputEl.value.slice(0, -1);
+        }
+
+        // Permitimos usar el teclado físico en caso de estar en ordenador
+        document.addEventListener('keydown', function(e) {
+            // Ignorar si no estamos jugando o si estamos en pantallas donde no se teclea
+            if (document.getElementById('game-screen').classList.contains('hidden')) return;
+            if (state === 'BRING_DOWN' || state === 'DONE' || state === '') return;
+
+            if (e.key >= '0' && e.key <= '9') {
+                pressKey(e.key);
+            } else if (e.key === 'Backspace') {
+                deleteKey();
+            } else if (e.key === 'Enter') {
                 checkAnswer();
             }
         });
@@ -464,7 +499,6 @@
                 feedback.innerText = "¡Uy! Inténtalo de nuevo. 🤔";
                 feedback.classList.remove('hidden');
                 inputEl.value = "";
-                inputEl.focus();
             }
         }
 
