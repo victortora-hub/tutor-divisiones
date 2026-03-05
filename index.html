@@ -6,6 +6,7 @@
     <title>Tutor de Divisiones Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -21,15 +22,22 @@
             align-items: flex-start;
             justify-content: center;
             font-size: 2.2rem;
-            font-weight: 900;
             color: #1e293b;
             margin: 1.5rem 0;
-            padding: 2rem;
-            background: white;
-            border-radius: 2rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border: 5px solid #4ade80;
+            padding: 55px 45px; /* Padding exacto para cuadrar las líneas */
+            background-color: #fdfcf8; /* Color hoja de papel */
+            background-image: 
+                linear-gradient(#dbeafe 2px, transparent 2px), 
+                linear-gradient(90deg, #dbeafe 2px, transparent 2px); /* Cuadrícula de libreta */
+            background-size: 45px 55px; /* Tamaño exacto de las celdas */
+            background-position: 45px 55px; /* Sincronización del grid CSS con el fondo */
+            border-radius: 4px; /* Bordes rectos tipo papel */
+            box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.15), inset 0 0 40px rgba(0,0,0,0.03);
+            border: none;
+            border-left: 3px solid #fca5a5; /* Margen rojo clásico */
             overflow-x: auto;
+            font-family: 'Kalam', cursive; /* Fuente manuscrita para los números */
+            transform: rotate(-1deg); /* Ligera inclinación realista del papel */
         }
 
         .grid-area {
@@ -45,18 +53,34 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2.5rem; /* Letra un poco más grande y orgánica */
+            font-weight: 700; 
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             z-index: 1;
         }
 
-        .bracket-spain-left { border-left: 5px solid #3b82f6; }
-        .bracket-spain-bottom { border-bottom: 5px solid #3b82f6; }
-        .line-bottom { border-bottom: 4px solid #94a3b8; }
+        /* Trazos tipo bolígrafo azul */
+        .bracket-spain-left { border-left: 4px solid #1e3a8a; border-radius: 8px 0 0 8px; }
+        .bracket-spain-bottom { border-bottom: 4px solid #1e3a8a; border-radius: 0 0 8px 8px; }
+        
+        /* Línea de resta estilo "a mano alzada" */
+        .line-bottom { position: relative; border-bottom: none; }
+        .line-bottom::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            border-bottom: 4px solid #334155; /* Tinta gris oscuro/lápiz */
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; /* Truco CSS hand-drawn */
+        }
 
+        /* Subrayador amarillo realista */
         .active-highlight {
-            background-color: #fef08a;
-            border-radius: 8px;
-            box-shadow: 0 0 0 3px #fef08a;
+            background-color: rgba(250, 204, 21, 0.4);
+            border-radius: 4px;
+            box-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
+            transform: rotate(1.5deg) scale(0.95);
             z-index: 0;
         }
 
@@ -292,16 +316,16 @@
             document.getElementById('grid-container').style.gridTemplateColumns = `repeat(${cols}, 45px)`;
 
             for(let i = 0; i < dividendStr.length; i++) {
-                cells.push({ id: cellIdCounter++, val: dividendStr[i], row: 1, col: i + 1, classes: "text-3xl" });
+                cells.push({ id: cellIdCounter++, val: dividendStr[i], row: 1, col: i + 1, classes: "text-blue-900" }); /* Boli Azul */
             }
 
             let divStr = String(divisor);
             let divisorStartCol = dividendStr.length + 1;
             
             for(let i = 0; i < divStr.length; i++) {
-                let cellClasses = "text-3xl text-blue-600 bracket-spain-bottom";
+                let cellClasses = "text-blue-900 bracket-spain-bottom";
                 if (i === 0) cellClasses += " bracket-spain-left";
-                cells.push({ id: cellIdCounter++, val: divStr[i], row: 1, col: divisorStartCol + i, classes: cellClasses });
+                cells.push({ id: cellIdCounter++, val: divStr[i], row: 1, col: divisorStartCol + i, classes: cellClasses }); /* Boli Azul */
             }
 
             currDividendIdx = 0;
@@ -468,7 +492,7 @@
                     let qCells = cells.filter(c => c.row === 2 && c.col >= dividendStr.length + 1).sort((a,b) => a.col - b.col);
                     let finalQuotient = qCells.map(c => c.val).join('');
 
-                    inst.innerHTML = `Cociente: <span class="text-yellow-600 text-3xl">${finalQuotient}</span><br>Resto: <span class="text-yellow-600 text-3xl">${finalRemainder}</span>`;
+                    inst.innerHTML = `Cociente: <span class="text-slate-800 text-3xl font-bold" style="font-family:'Kalam'">${finalQuotient}</span><br>Resto: <span class="text-slate-800 text-3xl font-bold" style="font-family:'Kalam'">${finalRemainder}</span>`;
                     
                     input.classList.add('hidden');
                     keypad.classList.add('hidden');
@@ -548,14 +572,14 @@
             switch(state) {
                 case 'DIVIDE':
                     currentQuotientDigit = expectedAnswer;
-                    addNumberToGrid(currentQuotientDigit, 2, quotientCol, 'text-blue-600 font-black text-3xl');
+                    addNumberToGrid(currentQuotientDigit, 2, quotientCol, 'text-gray-900'); // Tinta negra/lápiz
                     quotientCol++;
                     setState('MULTIPLY');
                     break;
 
                 case 'MULTIPLY':
                     currentProduct = expectedAnswer;
-                    addNumberToGrid(currentProduct, leftCurrentRow, currDividendIdx + 1, 'text-purple-600 line-bottom font-bold text-2xl');
+                    addNumberToGrid(currentProduct, leftCurrentRow, currDividendIdx + 1, 'text-slate-700 line-bottom'); // Lápiz gris
                     leftCurrentRow++;
                     setState('SUBTRACT');
                     break;
@@ -563,10 +587,10 @@
                 case 'SUBTRACT':
                     let remainder = expectedAnswer;
                     if (currDividendIdx < dividendStr.length - 1) {
-                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-red-600 font-bold text-2xl');
+                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-red-700'); // Boli rojo para restos
                         setState('BRING_DOWN');
                     } else {
-                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-yellow-500 font-black text-3xl');
+                        addNumberToGrid(remainder, leftCurrentRow, currDividendIdx + 1, 'text-gray-900 underline'); // Resultado final
                         setState('DONE');
                     }
                     break;
@@ -579,11 +603,11 @@
                 let arrowCol = currDividendIdx + 2;
                 let arrowRow = leftCurrentRow - 1; 
 
-                cells.push({ id: cellIdCounter++, val: '↓', row: arrowRow, col: arrowCol, classes: 'text-red-300' });
+                cells.push({ id: cellIdCounter++, val: '↓', row: arrowRow, col: arrowCol, classes: 'text-red-400 opacity-70' });
                 
                 currDividendIdx++;
                 let broughtDownDigit = dividendStr[currDividendIdx];
-                addNumberToGrid(broughtDownDigit, leftCurrentRow, currDividendIdx + 1, 'text-green-600 font-bold text-2xl');
+                addNumberToGrid(broughtDownDigit, leftCurrentRow, currDividendIdx + 1, 'text-emerald-700'); // Boli verde
                 
                 let remainderCells = cells.filter(c => c.row === leftCurrentRow && c.col <= currDividendIdx + 1 && c.val !== '↓');
                 remainderCells.sort((a,b) => a.col - b.col);
@@ -614,5 +638,6 @@
     </script>
 </body>
 </html>
+
 
 
